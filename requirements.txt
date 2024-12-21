@@ -1,7 +1,6 @@
 streamlit
 pdfminer.six
 requests
-base64
 duckduckgo-search
 openai
 stree
