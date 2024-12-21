@@ -1,0 +1,8 @@
+streamlit==1.25.0          # For building the interactive web app
+pdfminer.six==20221105     # For extracting text from PDF files
+requests==2.31.0           # For making HTTP requests to APIs
+duckduckgo-search==2.9.5   # For performing DuckDuckGo searches
+openai==0.27.9             # For OpenAI API interactions
+stree==0.1.0               # Custom package for displaying PDFs in Streamlit
+python -m pip install --upgrade pip
+
