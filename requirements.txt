@@ -1,4 +1,4 @@
-streamlit==0.68.1          # For building the interactive web app
+streamlit==1.25.0          # For building the interactive web app
 pdfminer.six==20221105     # For extracting text from PDF files
 requests==2.31.0           # For making HTTP requests to APIs
 duckduckgo-search==7.0.0   # For performing DuckDuckGo searches
