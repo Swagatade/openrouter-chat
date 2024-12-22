@@ -12,7 +12,7 @@ API_BASE_URL = "https://openrouter.ai/api/v1"
 API_KEY = "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"  # Replace with your API key
 
 # Initialize OpenAI client
-client = openai.OpenAI(
+client = openai.openai(
     base_url=API_BASE_URL,
     api_key=API_KEY,
 )
