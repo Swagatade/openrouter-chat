@@ -39,6 +39,7 @@ b. Weather Information
 1.	Enter a location or leave the input blank for current location.
 2.	Click "Get Weather."
 3.	View the detailed weather report.
+4.	https://www.tomorrow.io
 ________________________________________
 c. PDF Summarization
 •	Functionality: Uploads a PDF file, displays its content, and allows you to ask queries about the document.
