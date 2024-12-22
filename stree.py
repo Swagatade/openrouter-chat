@@ -153,7 +153,7 @@ if choice == "Query Processing":
                 result = fetch_specified_location_weather(location)
             else:
                 result = fetch_current_location_weather()
-        elif 'search' in user_query.lower():
+        elif '/' in user_query.lower():
             results = search_duckduckgo(user_query)
             result = "\n".join(results)
         elif 'image' in user_query.lower():
