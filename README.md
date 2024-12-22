@@ -124,5 +124,6 @@ Note: All pip are install Streamlitenv
 
 Link: https://youtu.be/K1GiIgMw6mI?si=RRtMlnGGefKLoTC7
 
+All ui controls are mouse pointer only.
 
 
