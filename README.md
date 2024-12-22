@@ -12,8 +12,8 @@ Optional:
 ________________________________________
 2. Replace API Keys
 You need to replace placeholders like "your_api_key" with valid API keys:
-•	OpenRouter API Key: Replace "your_api_key" with a valid API key from OpenRouter.
-•	Tomorrow.io API Key: Replace "Your_api_key" with a valid API key from Tomorrow.io.
+•	OpenRouter API Key: Replace "your_api_key" with a valid API key from OpenRouter.https://openrouter.ai
+•	Tomorrow.io API Key: Replace "Your_api_key" with a valid API key from Tomorrow.io. https://www.tomorrow.io
 ________________________________________
 3. Save the Code
 Save the code in a file with a .py extension, for example, multitool_chat_app.py.
@@ -39,7 +39,6 @@ b. Weather Information
 1.	Enter a location or leave the input blank for current location.
 2.	Click "Get Weather."
 3.	View the detailed weather report.
-4.	https://www.tomorrow.io
 ________________________________________
 c. PDF Summarization
 •	Functionality: Uploads a PDF file, displays its content, and allows you to ask queries about the document.
@@ -74,7 +73,7 @@ o	"What are the key findings?"
 4.	Click "Submit Queries" to see the answers.
 Let me know if you encounter any issues!
 ________________________________________
-Requirement pip is
+Requirement pip are
 streamlit
 requests
 duckduckgo-search
