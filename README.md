@@ -39,7 +39,9 @@ a. Query Processing
 
 i.	Fetches weather (current or for a specific location).
 
-ii.	Performs DuckDuckGo searches.
+ii.	Performs DuckDuckGo searches. {search_"your_query"}.
+
+Link: https://duckduckgo.com
 
 iii.	Opens URLs for image or picture explanation tools.
 ________________________________________
