@@ -3,7 +3,7 @@ import requests
 import base64
 import os
 from duckduckgo_search import DDGS
-from OpenAI import openai 
+import openai 
 import PyPDF2
 
 # Set OpenRouter API settings
@@ -11,7 +11,7 @@ API_BASE_URL = "https://openrouter.ai/api/v1"
 API_KEY = "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" # Use Streamlit secrets to manage API keys securely
 
 # Initialize OpenAI client
-client = openai.OpenAI(
+client = openai(
     base_url=API_BASE_URL,
     api_key=API_KEY,
 )
