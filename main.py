@@ -3,15 +3,15 @@ import requests
 import base64
 import os
 from duckduckgo_search import DDGS
-import openai 
+import openai
 import PyPDF2
 
 # Set OpenRouter API settings
 API_BASE_URL = "https://openrouter.ai/api/v1"
-API_KEY = "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" # Use Streamlit secrets to manage API keys securely
+API_KEY = st.secrets["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"]  # Use Streamlit secrets to manage API keys securely
 
 # Initialize OpenAI client
-client = openai.openai(
+client = openai.OpenAI(
     base_url=API_BASE_URL,
     api_key=API_KEY,
 )
@@ -72,7 +72,7 @@ def fetch_current_location_weather():
         geo_data = geo_response.json()
         latitude, longitude = geo_data['loc'].split(',')
 
-        weather_url = f"https://api.tomorrow.io/v4/weather/realtime?location={latitude},{longitude}&apikey=yquPiL5Fyh9cRNmPu28QMQTbpb4LpbV0Y"
+        weather_url = f"https://api.tomorrow.io/v4/weather/realtime?location={latitude},{longitude}&apikey={st.secrets['yquPiL5Fyh9cRNmPu28QMQTbpb4LpbV0Y']}"
         headers = {"accept": "application/json"}
         weather_response = requests.get(weather_url, headers=headers)
 
@@ -99,7 +99,7 @@ def fetch_specified_location_weather(location):
     try:
         if not location.strip():
             return "Location cannot be empty."
-        url = f"https://api.tomorrow.io/v4/weather/realtime?location={location}&apikey=yquPiL5Fyh9cRNmPu28QMQTbpb4LpbV0"
+        url = f"https://api.tomorrow.io/v4/weather/realtime?location={location}&apikey={st.secrets['yquPiL5Fyh9cRNmPu28QMQTbpb4LpbV0']}"
         headers = {"accept": "application/json"}
         response = requests.get(url, headers=headers)
 
