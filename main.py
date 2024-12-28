@@ -3,7 +3,7 @@ import requests
 import base64
 import os
 from duckduckgo_search import DDGS
-import openai from OpenAI
+from OpenAI import openai 
 import PyPDF2
 
 # Set OpenRouter API settings
