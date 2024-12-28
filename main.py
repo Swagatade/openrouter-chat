@@ -100,7 +100,7 @@ def fetch_specified_location_weather(location):
     try:
         if not location.strip():
             return "Location cannot be empty."
-        url = f"https://api.tomorrow.io/v4/weather/realtime?location={location}&apikey=yquPiL5Fyh9cRNmPu28QMQTbpb4LpbV0"
+        url = f"https://api.tomorrow.io/v4/weather/realtime?location={location}&apikey=your_api"
         headers = {"accept": "application/json"}
         response = requests.get(url, headers=headers)
 
