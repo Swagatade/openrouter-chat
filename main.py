@@ -3,16 +3,15 @@ import requests
 import base64
 import os
 from duckduckgo_search import DDGS
-import webbrowser
 import openai
 import PyPDF2
 
 # Set OpenRouter API settings
 API_BASE_URL = "https://openrouter.ai/api/v1"
-API_KEY = "your_api"  # Replace with your API key
+API_KEY = st.secrets["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"]  # Use Streamlit secrets to manage API keys securely
 
 # Initialize OpenAI client
-client = openai.openai(
+client = openai.OpenAI(
     base_url=API_BASE_URL,
     api_key=API_KEY,
 )
@@ -73,7 +72,7 @@ def fetch_current_location_weather():
         geo_data = geo_response.json()
         latitude, longitude = geo_data['loc'].split(',')
 
-        weather_url = f"https://api.tomorrow.io/v4/weather/realtime?location={latitude},{longitude}&apikey=your_api"
+        weather_url = f"https://api.tomorrow.io/v4/weather/realtime?location={latitude},{longitude}&apikey={st.secrets['yquPiL5Fyh9cRNmPu28QMQTbpb4LpbV0Y']}"
         headers = {"accept": "application/json"}
         weather_response = requests.get(weather_url, headers=headers)
 
@@ -100,7 +99,7 @@ def fetch_specified_location_weather(location):
     try:
         if not location.strip():
             return "Location cannot be empty."
-        url = f"https://api.tomorrow.io/v4/weather/realtime?location={location}&apikey=your_api"
+        url = f"https://api.tomorrow.io/v4/weather/realtime?location={location}&apikey={st.secrets['yquPiL5Fyh9cRNmPu28QMQTbpb4LpbV0']}"
         headers = {"accept": "application/json"}
         response = requests.get(url, headers=headers)
 
@@ -157,13 +156,9 @@ if choice == "Query Processing":
             results = search_duckduckgo(user_query)
             result = "\n".join(results)
         elif 'image' in user_query.lower():
-            url = f"https://www.meta.ai"
-            webbrowser.open(url)
-            result = "Opened image search."
+            result = "Opened image search. [Click here](https://www.meta.ai)"
         elif 'picture explain' in user_query.lower():
-            url = f"https://copilot.microsoft.com/i"
-            webbrowser.open(url)
-            result = "Opened picture explanation."
+            result = "Opened picture explanation. [Click here](https://copilot.microsoft.com/i)"
         else:
             response = client.completions.create(
                 model="GPT-4o",
@@ -190,14 +185,12 @@ elif choice == "Weather Information":
 
 elif choice == "Image Search":
     st.subheader("Image Search")
-    url = f"https://www.meta.ai"
-    webbrowser.open(url)
+    st.markdown("[Click here to open image search](https://www.meta.ai)")
     history.append(("Image Search", "N/A", "Opened image search."))
 
 elif choice == "Picture Explanation":
     st.subheader("Picture Explanation")
-    url = f"https://copilot.microsoft.com/i"
-    webbrowser.open(url)
+    st.markdown("[Click here to open picture explanation](https://copilot.microsoft.com/i)")
     history.append(("Picture Explanation", "N/A", "Opened picture explanation."))
 
 elif choice == "PDF Summarization":
@@ -212,14 +205,6 @@ elif choice == "PDF Summarization":
         with open(filepath, "wb") as temp_file:
             temp_file.write(uploaded_file.read())
         # Create two columns
-        col1, col2 = st.columns(2)
-
-        # Display the PDF on the left
-        with col1:
-            st.info("Uploaded File")
-            display_pdf(filepath)
-
-        # Query and answer section on the right
         col1, col2 = st.columns(2)
 
         # Display the PDF on the left
