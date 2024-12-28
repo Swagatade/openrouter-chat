@@ -9,7 +9,7 @@ import PyPDF2
 
 # Set OpenRouter API settings
 API_BASE_URL = "https://openrouter.ai/api/v1"
-API_KEY = "your_api_key"  # Replace with your API key
+API_KEY = "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"  # Replace with your API key
 
 # Initialize OpenAI client
 client = openai.openai(
@@ -73,7 +73,7 @@ def fetch_current_location_weather():
         geo_data = geo_response.json()
         latitude, longitude = geo_data['loc'].split(',')
 
-        weather_url = f"https://api.tomorrow.io/v4/weather/realtime?location={latitude},{longitude}&apikey=Your_api_key"
+        weather_url = f"https://api.tomorrow.io/v4/weather/realtime?location={latitude},{longitude}&apikey=yquPiL5Fyh9cRNmPu28QMQTbpb4LpbV0"
         headers = {"accept": "application/json"}
         weather_response = requests.get(weather_url, headers=headers)
 
