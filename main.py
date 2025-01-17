@@ -8,7 +8,7 @@ import PyPDF2
 
 # API Configuration
 API_BASE_URL = "https://openrouter.ai/api/v1"
-API_KEY = "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"
+API_KEY = "your api"
 
 
 
@@ -68,7 +68,7 @@ def fetch_current_location_weather():
         geo_data = geo_response.json()
         latitude, longitude = geo_data['loc'].split(',')
 
-        weather_url = f"https://api.tomorrow.io/v4/weather/realtime?location={latitude},{longitude}&apikey=yquPiL5Fyh9cRNmPu28QMQTbpb4LpbV0"
+        weather_url = f"https://api.tomorrow.io/v4/weather/realtime?location={latitude},{longitude}&apikey=your api"
         headers = {"accept": "application/json"}
         weather_response = requests.get(weather_url, headers=headers)
 
@@ -94,7 +94,7 @@ def fetch_specified_location_weather(location):
     try:
         if not location.strip():
             return "Location cannot be empty."
-        url = f"https://api.tomorrow.io/v4/weather/realtime?location={location}&apikey=yquPiL5Fyh9cRNmPu28QMQTbpb4LpbV0"
+        url = f"https://api.tomorrow.io/v4/weather/realtime?location={location}&apikey=your api"
         headers = {"accept": "application/json"}
         response = requests.get(url, headers=headers)
 
