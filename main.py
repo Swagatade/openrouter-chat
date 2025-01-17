@@ -3,18 +3,14 @@ import requests
 import base64
 import os
 from duckduckgo_search import DDGS
-import openai
+import webbrowser
 import PyPDF2
 
-# Set OpenRouter API settings
+# API Configuration
 API_BASE_URL = "https://openrouter.ai/api/v1"
-API_KEY = st.secrets["your_api"]  # Use Streamlit secrets to manage API keys securely
+API_KEY = "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"
 
-# Initialize OpenAI client
-client = openai.OpenAI(
-    base_url=API_BASE_URL,
-    api_key=API_KEY,
-)
+
 
 # Function to extract text from a PDF
 @st.cache_data
@@ -72,22 +68,21 @@ def fetch_current_location_weather():
         geo_data = geo_response.json()
         latitude, longitude = geo_data['loc'].split(',')
 
-        weather_url = f"https://api.tomorrow.io/v4/weather/realtime?location={latitude},{longitude}&apikey={st.secrets['your_api']}"
+        weather_url = f"https://api.tomorrow.io/v4/weather/realtime?location={latitude},{longitude}&apikey=yquPiL5Fyh9cRNmPu28QMQTbpb4LpbV0"
         headers = {"accept": "application/json"}
         weather_response = requests.get(weather_url, headers=headers)
 
         if weather_response.status_code == 200:
-            weather_data = weather_response.json()["data"]
+            weather_data = weather_response.json()["data"]["values"]
             return (
                 f"**Current Location Weather:**\n"
-                f"- Time: {weather_data['time']}\n"
-                f"- Temperature: {weather_data['values']['temperature']}\u00b0C\n"
-                f"- Apparent Temperature: {weather_data['values']['temperatureApparent']}\u00b0C\n"
-                f"- Humidity: {weather_data['values']['humidity']}%\n"
-                f"- Wind Speed: {weather_data['values']['windSpeed']} m/s\n"
-                f"- Cloud Cover: {weather_data['values']['cloudCover']}%\n"
-                f"- Visibility: {weather_data['values']['visibility']} km\n"
-                f"- UV Index: {weather_data['values']['uvIndex']}"
+                f"- Temperature: {weather_data['temperature']}\u00b0C\n"
+                f"- Apparent Temperature: {weather_data['temperatureApparent']}\u00b0C\n"
+                f"- Humidity: {weather_data['humidity']}%\n"
+                f"- Wind Speed: {weather_data['windSpeed']} m/s\n"
+                f"- Cloud Cover: {weather_data['cloudCover']}%\n"
+                f"- Visibility: {weather_data['visibility']} km\n"
+                f"- UV Index: {weather_data['uvIndex']}"
             )
         else:
             return f"Failed to fetch weather data. Status Code: {weather_response.status_code}, Message: {weather_response.text}"
@@ -99,7 +94,7 @@ def fetch_specified_location_weather(location):
     try:
         if not location.strip():
             return "Location cannot be empty."
-        url = f"https://api.tomorrow.io/v4/weather/realtime?location={location}&apikey={st.secrets['your_api']}"
+        url = f"https://api.tomorrow.io/v4/weather/realtime?location={location}&apikey=yquPiL5Fyh9cRNmPu28QMQTbpb4LpbV0"
         headers = {"accept": "application/json"}
         response = requests.get(url, headers=headers)
 
@@ -156,16 +151,31 @@ if choice == "Query Processing":
             results = search_duckduckgo(user_query)
             result = "\n".join(results)
         elif 'image' in user_query.lower():
-            result = "Opened image search. [Click here](https://www.meta.ai)"
+            url = f"https://www.meta.ai"
+            webbrowser.open(url)
+            result = "Opened image search."
         elif 'picture explain' in user_query.lower():
-            result = "Opened picture explanation. [Click here](https://copilot.microsoft.com/i)"
+            url = f"https://copilot.microsoft.com/i"
+            webbrowser.open(url)
+            result = "Opened picture explanation."
         else:
-            response = client.completions.create(
-                model="GPT-4o",
-                prompt=user_query,
-                max_tokens=500
-            )
-            result = response.choices[0].text.strip()
+            payload = {
+                "model": "mistralai/mistral-7b-instruct:free",
+                "messages": [
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": user_query}
+                ],
+                "max_tokens": 100000
+            }
+            headers = {
+                "Authorization": f"Bearer {API_KEY}"
+            }
+            response = requests.post(f"{API_BASE_URL}/chat/completions", json=payload, headers=headers)
+            if response.status_code == 200:
+                result_data = response.json()
+                result = result_data['choices'][0]['message']['content']
+            else:
+                result = f"Error in query processing: {response.text}"
 
         st.write(result)
         history.append(("Query Processing", user_query, result))
@@ -185,12 +195,14 @@ elif choice == "Weather Information":
 
 elif choice == "Image Search":
     st.subheader("Image Search")
-    st.markdown("[Click here to open image search](https://www.meta.ai)")
+    url = f"https://www.meta.ai"
+    webbrowser.open(url)
     history.append(("Image Search", "N/A", "Opened image search."))
 
 elif choice == "Picture Explanation":
     st.subheader("Picture Explanation")
-    st.markdown("[Click here to open picture explanation](https://copilot.microsoft.com/i)")
+    url = f"https://copilot.microsoft.com/i"
+    webbrowser.open(url)
     history.append(("Picture Explanation", "N/A", "Opened picture explanation."))
 
 elif choice == "PDF Summarization":
@@ -205,6 +217,14 @@ elif choice == "PDF Summarization":
         with open(filepath, "wb") as temp_file:
             temp_file.write(uploaded_file.read())
         # Create two columns
+        col1, col2 = st.columns(2)
+
+        # Display the PDF on the left
+        with col1:
+            st.info("Uploaded File")
+            display_pdf(filepath)
+
+        # Query and answer section on the right
         col1, col2 = st.columns(2)
 
         # Display the PDF on the left
