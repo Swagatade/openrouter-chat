@@ -8,7 +8,7 @@ import PyPDF2
 
 # API Configuration
 API_BASE_URL = "https://openrouter.ai/api/v1"
-API_KEY = "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"
+API_KEY = "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"
 
 
 
